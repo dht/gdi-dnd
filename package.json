@@ -1,0 +1,49 @@
+{
+    "name": "@gdi/dnd",
+    "version": "0.0.22",
+    "scripts": {
+        "build": "tsc & vite build",
+        "test": "jest",
+        "coverage": "jest --coverage=true",
+        "firestore:reset:site": "npx ts-node seed/seed.site.ts",
+        "firestore:reset:mixer": "npx ts-node seed/seed.mixer.ts"
+    },
+    "dependencies": {
+        "@gdi/types": "^0.0.46",
+        "firebase": "^9.9.2",
+        "firestore-local": "^0.0.34",
+        "lodash": "^4.17.21",
+        "redux-store-generator": "^0.9.86",
+        "reselect": "^4.1.6"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^7.5.0",
+        "@gdi/store-seeder": "^0.0.44",
+        "@gdi/types": "^0.0.46",
+        "@types/jest": "^28.1.6",
+        "@types/node": "^18.8.3",
+        "chalk": "^4.1.2",
+        "globby": "^13.1.2",
+        "jest": "^28.1.3",
+        "jest-cli": "^28.1.3",
+        "prettier": "^2.7.1",
+        "rollup-plugin-analyzer": "^4.0.0",
+        "shared-base": "^0.0.18",
+        "ts-jest": "^28.0.7",
+        "typescript": "^4.7.4",
+        "vite": "^3.0.3",
+        "vite-plugin-dts": "^1.4.0"
+    },
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/dnd.umd.js",
+    "module": "./dist/dnd.es.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/dnd.es.js",
+            "require": "./dist/dnd.umd.js"
+        }
+    }
+}
