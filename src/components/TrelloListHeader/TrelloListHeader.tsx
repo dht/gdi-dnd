@@ -44,7 +44,7 @@ export function TrelloListHeader(props: TrelloListHeaderProps) {
         <Container
             className='TrelloListHeader-container'
             data-testid='TrelloListHeader-container'
-            onClick={() => onEditingStart()}
+            onDoubleClick={() => onEditingStart()}
         >
             {renderInner()}
         </Container>
