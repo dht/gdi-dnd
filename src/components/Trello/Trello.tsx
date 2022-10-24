@@ -1,28 +1,37 @@
-import React, { useContext, useMemo } from 'react';
-import Dev from '../Dev/Dev';
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import TrelloList from '../TrelloList/TrelloList';
 import { Container } from './Trello.style';
-import { IDndItems, IDndList, IDndLists } from '../../types';
-import { ItemComponent } from '../Item/Item';
+import { IDndItems, IDndList, IDndLists, IDndOptions } from '../../types';
+import { usePosition } from '../../hooks/usePosition';
 import {
     DndCallbacksOuter,
     DndContext,
     DndContextProvider,
 } from '../../context/Dnd.context';
+// import Dev from '../Dev/Dev';
 
 export type TrelloProps = {
     id: string;
     lists: IDndLists;
     items: IDndItems;
+    options?: IDndOptions;
     callbacks: DndCallbacksOuter;
     isRtl?: boolean;
-    cmp?: ItemComponent;
 };
 
 export function TrelloInner(props: TrelloProps) {
-    const { lists, items } = props;
-    const { state } = useContext(DndContext);
-    const { movableItemId } = state;
+    const ref = useRef<HTMLDivElement>(null);
+    const { lists, items = {} } = props;
+    const context = useContext(DndContext);
+    const { movableItemId } = context.state;
+
+    const position = usePosition(ref);
+
+    useEffect(() => {
+        context.patchState({
+            containerPosition: position,
+        });
+    }, [position]);
 
     const itemMirror = useMemo(() => {
         return Object.values(items).find((i) => i.id === movableItemId);
@@ -47,27 +56,29 @@ export function TrelloInner(props: TrelloProps) {
         return Object.values(lists).map((list: IDndList) => renderList(list));
     }
     return (
-        <Container className='Trello-container' data-testid='Trello-container'>
+        <Container
+            ref={ref}
+            className='Trello-container'
+            data-testid='Trello-container'
+        >
             {renderLists()}
         </Container>
     );
 }
 
 export function Trello(props: TrelloProps) {
-    const { id, lists, items, callbacks, isRtl, cmp } = props;
+    const { id, lists, items, callbacks, isRtl, options = {} } = props;
 
     return (
         <DndContextProvider
             id={id}
             lists={lists}
             items={items}
-            options={{}}
+            options={options}
             callbacks={callbacks}
             isRtl={isRtl}
-            cmp={cmp}
         >
             <TrelloInner {...props} />
-            <Dev />
         </DndContextProvider>
     );
 }

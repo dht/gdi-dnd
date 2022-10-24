@@ -12,7 +12,7 @@ export type ItemProps = {
 
 export function Item(props: ItemProps) {
     const { item, isSelected } = props;
-    const { color = 'purple' } = item || {};
+    const { color = 'purple' } = item ?? {};
 
     const className = classnames('Item-container', {
         selected: isSelected,
@@ -27,7 +27,7 @@ export function Item(props: ItemProps) {
             return props.children;
         }
 
-        const { title = '' } = item || {};
+        const { title = '' } = item ?? {};
 
         return <div className='title'>{title}</div>;
     }

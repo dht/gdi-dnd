@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { createContext } from 'react';
 import {
     IDndBox,
@@ -60,7 +60,9 @@ const initialValue: IDndContext = {
         destinationListId: '',
         movingBox: { x: 0, y: 0, width: 0, height: 0 },
         startPoint: { x: 0, y: 0 },
+        containerPosition: { x: 0, y: 0 },
         editableNewId: '',
+        growMirror: false,
     },
     options: {},
     callbacks: {
@@ -308,6 +310,14 @@ export const DndContextProvider = (props: WithChildren<DndContextProps>) => {
     useEffect(() => {
         clearTimeout(timeout.current);
     }, []);
+
+    useEffect(() => {
+        patchState({ growMirror: true });
+    }, [state.destinationListId]);
+
+    useEffect(() => {
+        patchState({ growMirror: false });
+    }, [state.destinationIndex]);
 
     useEnter(() => {
         if (

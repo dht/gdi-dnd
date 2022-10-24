@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import classnames from 'classnames';
 import TrelloItemEdit from '../TrelloItemEdit/TrelloItemEdit';
 import { Container } from './TrelloItem.style';
@@ -14,11 +14,12 @@ export type TrelloItemProps = {
     isSelected?: boolean;
     isEditable?: boolean;
     children?: JSX.Element | JSX.Element[];
+    grow?: boolean;
 };
 
 export function TrelloItem(props: TrelloItemProps) {
     const ref = useRef<HTMLDivElement>(null);
-    const { index, item, callbacks, isSelected, isEditable } = props;
+    const { index, item, callbacks, isSelected, isEditable, grow } = props;
 
     function onMouseOver(ev: React.MouseEvent<HTMLDivElement>) {
         callbacks.onMouseOver({
@@ -42,15 +43,20 @@ export function TrelloItem(props: TrelloItemProps) {
             height: box.height,
         };
 
+        // relative to parent
+        const point = { x: ev.clientX, y: ev.clientY };
+
         callbacks.onSelect({
             itemId: item.id,
             ev,
-            point: { x: ev.clientX, y: ev.clientY },
+            point,
             box: movingBox,
         });
     }
 
-    const className = classnames('TrelloItem-container', props.className);
+    const className = classnames('TrelloItem-container', props.className, {
+        grow,
+    });
 
     return (
         <Container
@@ -58,6 +64,7 @@ export function TrelloItem(props: TrelloItemProps) {
             onMouseDown={onMouseDown}
             className={className}
             data-testid='TrelloItem-container'
+            key={item.id}
             ref={ref}
         >
             <Item item={item} isSelected={isSelected}>

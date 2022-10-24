@@ -7,8 +7,4 @@ export const Container = styled.div`
     .title {
         color: grey;
     }
-
-    &.moving {
-        pointer-events: none;
-    }
 `;

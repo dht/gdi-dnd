@@ -28,6 +28,8 @@ export function TrelloList(props: TrelloListProps) {
         movingBox,
         editableNewId,
         startPoint,
+        containerPosition,
+        growMirror,
     } = state;
 
     const items = useMemo(() => {
@@ -51,6 +53,7 @@ export function TrelloList(props: TrelloListProps) {
                 index={elements.length}
                 item={itemMirror!}
                 callbacks={callbacks}
+                grow={growMirror}
                 className='mirror'
             />
         );
@@ -91,6 +94,7 @@ export function TrelloList(props: TrelloListProps) {
             <TrelloItemNew
                 key={NEW_KEY}
                 listId={list.id}
+                index={elements.length}
                 callbacks={callbacks}
                 isMoving={isMoving}
                 isSelected={selectedItemId === NEW_KEY}
@@ -115,6 +119,7 @@ export function TrelloList(props: TrelloListProps) {
                 callbacks={callbacks}
                 box={movingBox}
                 startPoint={startPoint}
+                containerPosition={containerPosition}
             />
         );
     }

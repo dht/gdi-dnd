@@ -1,26 +1,30 @@
-import React, { useContext, useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { Container } from './TrelloItemMoving.style';
 import { DndCallbacks } from '../../context/Dnd.context';
 import { IDndBox, IDndItem, IDndPoint } from '../../types';
 import { useMouseMove, useMouseUp } from '@gdi/hooks';
-import Item, { ItemComponent } from '../Item/Item';
+import Item from '../Item/Item';
 
 export type TrelloItemMovingProps = {
     item: IDndItem;
     callbacks: DndCallbacks;
     box: IDndBox;
     startPoint: IDndPoint;
+    containerPosition: IDndPoint;
 };
 
 export function TrelloItemMoving(props: TrelloItemMovingProps) {
-    const { item, callbacks, box, startPoint } = props;
+    const { item, callbacks, box, startPoint, containerPosition } = props;
     const delta = useMouseMove(true, startPoint, () => {});
 
     const style: React.CSSProperties = useMemo(() => {
+        const left = box.x - containerPosition.x;
+        const top = box.y - containerPosition.y;
+
         return {
             transform: `translateX(${delta.x}px) translateY(${delta.y}px) scale(1.06)`,
-            left: `${box.x}px`,
-            top: `${box.y}px`,
+            left: `${left}px`,
+            top: `${top}px`,
             width: box.width + 'px',
             height: box.height + 'px',
         };

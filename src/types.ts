@@ -9,7 +9,9 @@ export type IDndState = {
     destinationListId: string;
     movingBox: IDndBox;
     startPoint: IDndPoint;
+    containerPosition: IDndPoint;
     editableNewId: string;
+    growMirror: boolean;
 };
 
 export type IDndOptions = {};
@@ -27,6 +29,7 @@ export type IDndList = {
     id: string;
     title: string;
     order: number;
+    dataTags?: string[];
 };
 
 export type IDndData = {

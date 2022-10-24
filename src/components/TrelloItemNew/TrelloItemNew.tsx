@@ -1,11 +1,10 @@
 import React, { useRef } from 'react';
-import { DndCallbacks } from '../../context/Dnd.context';
-import ContentEditable from '../ContentEditable/ContentEditable';
-import { Container } from './TrelloItemNew.style';
 import classnames from 'classnames';
+import ContentEditable from '../ContentEditable/ContentEditable';
+import Item from '../Item/Item';
+import { Container } from './TrelloItemNew.style';
+import { DndCallbacks } from '../../context/Dnd.context';
 import { useEnter } from '@gdi/hooks';
-import { IDndItem } from '../../types';
-import Item, { ItemComponent } from '../Item/Item';
 
 export type TrelloItemNewProps = {
     listId: string;
@@ -13,10 +12,11 @@ export type TrelloItemNewProps = {
     isMoving?: boolean;
     isSelected?: boolean;
     isEditable?: boolean;
+    index: number;
 };
 
 export function TrelloItemNew(props: TrelloItemNewProps) {
-    const { isMoving, isSelected, isEditable, listId } = props;
+    const { isMoving, isSelected, isEditable, listId, index } = props;
     const ref = useRef<HTMLDivElement>(null);
     const { callbacks } = props;
 
@@ -56,11 +56,20 @@ export function TrelloItemNew(props: TrelloItemNewProps) {
         }
     }, [isSelected, isEditable]);
 
+    function onMouseOver(ev: React.MouseEvent<HTMLDivElement>) {
+        callbacks.onMouseOver({
+            index,
+            ev,
+            point: { x: ev.clientX, y: ev.clientY },
+        });
+    }
+
     return (
         <Container
             ref={ref}
             className={className}
             data-testid='TrelloItemNew-container'
+            onMouseOver={onMouseOver}
             onMouseDown={() =>
                 callbacks.onSelect({
                     itemId: `NEW_${listId}`,
