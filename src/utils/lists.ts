@@ -1,5 +1,5 @@
 import { IDndList, IDndLists } from '../types';
-import { uniq, isEqual } from 'lodash';
+import { uniq } from 'lodash';
 
 export const getListByDataTags = (
     scopedPermutationId: string,
@@ -8,14 +8,29 @@ export const getListByDataTags = (
 ): IDndList | undefined => {
     return Object.values(lists).find((list) => {
         const { dataTags: listDataTags = [] } = list;
+
         const listDataTagsWithPrefix = listDataTags.map((tag) => {
-            return `${scopedPermutationId}-${tag}`;
+            return parseTag(scopedPermutationId, tag);
         });
 
         const listDataTagsSorted = listDataTagsWithPrefix.sort();
         const itemDataTagsSorted = dataTags.sort();
 
-        return isEqual(listDataTagsSorted, itemDataTagsSorted);
+        const sameTags = listDataTagsSorted.every((tag) =>
+            itemDataTagsSorted.includes(tag)
+        );
+
+        if (sameTags) {
+            return true;
+        }
+
+        const isOther = listDataTags.includes('$other');
+
+        if (isOther) {
+            return noMatches(lists, scopedPermutationId, dataTags);
+        }
+
+        return false;
     });
 };
 
@@ -67,6 +82,22 @@ export const getNewDataTagsByList = (
     return uniq(output.sort());
 };
 
+export const noMatches = (
+    lists: IDndLists,
+    scopedPermutationId: string,
+    tags: string[]
+) => {
+    const allTags: string[] = [];
+
+    Object.values(lists).forEach((list) => {
+        (list.dataTags ?? []).forEach((tag) => {
+            allTags.push(parseTag(scopedPermutationId, tag));
+        });
+    });
+
+    return !allTags.some((t) => tags.includes(t));
+};
+
 export const parseCommand = (
     command: DataTagCommand,
     scopedPermutationId: string
@@ -75,6 +106,56 @@ export const parseCommand = (
 
     return {
         ...command,
-        tag: `${scopedPermutationId}-${tag}`,
+        tag: parseTag(scopedPermutationId, tag),
     };
+};
+
+export const parseTag = (scopedPermutationId: string, tag: string) => {
+    if (tag in specialTags) {
+        return (specialTags as any)[tag]({
+            scopedPermutationId,
+            tag,
+        }) as string;
+    }
+
+    return `${scopedPermutationId}-${tag}`;
+};
+
+type ParseTagParams = {
+    scopedPermutationId: string;
+    tag: string;
+};
+
+const specialTags = {
+    $other: (params: ParseTagParams) => '',
+    $today: (params: ParseTagParams) => params.scopedPermutationId + '-' + today(), // prettier-ignore
+    $tomorrow: (params: ParseTagParams) => params.scopedPermutationId + '-' + tomorrow(), // prettier-ignore
+    $yesterday: (params: ParseTagParams) => params.scopedPermutationId + '-' + yesterday(), // prettier-ignore
+};
+
+const lz = (value: number) => {
+    return value < 10 ? `0${value}` : value;
+};
+
+const formatDate = (date: Date) => {
+    return `${date.getFullYear()}-${lz(date.getMonth() + 1)}-${lz(
+        date.getDate()
+    )}`;
+};
+
+const today = () => {
+    const date = new Date();
+    return formatDate(date);
+};
+
+const tomorrow = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    return formatDate(date);
+};
+
+const yesterday = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    return formatDate(date);
 };

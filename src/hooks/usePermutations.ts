@@ -46,10 +46,13 @@ export function usePermutations(
 
             const listId = list?.id ?? null;
 
-            const order = orderAll[scopedPermutationId] ?? index;
+            const order = orderAll[scopedPermutationId] ?? {
+                [scopedPermutationId]: index,
+            };
 
             acc[id] = {
                 id,
+                ...item,
                 title,
                 listId,
                 order,
