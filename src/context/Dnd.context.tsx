@@ -29,6 +29,7 @@ export type DndCallbacksOuter = {
     onNew: (listId: string, value: string, order: number) => void;
     onDelete: (itemId: string) => Promise<boolean>;
     onEditList: (listId: string, value: string) => void;
+    onSelect: (itemId: string) => void;
 };
 
 type DndContextProps = {
@@ -100,6 +101,16 @@ export const DndContextProvider = (props: WithChildren<DndContextProps>) => {
     const [state, patchState] = useSetState<IDndState>({
         ...initialValue.state,
     });
+
+    useEffect(() => {
+        const { selectedItemId } = state;
+
+        if (selectedItemId.match(/^NEW/)) {
+            return;
+        }
+
+        callbacks.onSelect(selectedItemId);
+    }, [state.selectedItemId]);
 
     const callbacksDnd = useMemo(
         () => ({
