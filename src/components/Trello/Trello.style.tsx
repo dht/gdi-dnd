@@ -5,4 +5,5 @@ export const Container = styled.div`
     display: flex;
     flex-direction: row;
     position: relative;
+    background-color: transparent;
 `;
