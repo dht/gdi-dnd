@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
     flex: 1;
     background-color: #112;
-    border-left: 7px solid transparent;
+    ${(props) => props.theme.borderLeft('7px solid transparent')}
     border-radius: 3px;
     position: relative;
     user-select: none;
@@ -14,8 +14,8 @@ export const Container = styled.div`
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
+            ${(props) => props.theme.left(0)}
+            ${(props) => props.theme.right(0)}
             bottom: 0;
             pointer-events: none;
             background-color: rgba(0, 0, 0, 0.1);
@@ -27,8 +27,8 @@ export const Container = styled.div`
             content: '';
             position: absolute;
             top: 0;
-            left: -6px;
-            right: 0;
+            ${(props) => props.theme.left('-6px')}
+            ${(props) => props.theme.right(0)}            
             bottom: 0;
             pointer-events: none;
             background-color: rgba(0, 0, 0, 0.1);

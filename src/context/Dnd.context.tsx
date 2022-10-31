@@ -22,6 +22,7 @@ import {
     nudgeHorizontal,
     nudgeVertical,
 } from '../utils/nudgeAndMove';
+import { useTheme } from 'styled-components';
 
 export type DndCallbacksOuter = {
     onMove: (itemId: string, destinationListId: string, order: number) => void;
@@ -38,7 +39,6 @@ type DndContextProps = {
     lists: IDndLists;
     items: IDndItems;
     callbacks: DndCallbacksOuter;
-    isRtl?: boolean;
 };
 
 type IDndContext = {
@@ -88,7 +88,8 @@ export const DndContext = createContext<IDndContext>(initialValue);
 
 export const DndContextProvider = (props: WithChildren<DndContextProps>) => {
     const timeout = useRef<any>();
-    const { options, items, lists, callbacks, isRtl } = props;
+    const { options, items, lists, callbacks } = props;
+    const { isRtl } = useTheme();
 
     const configValue = useMemo(
         () => ({
