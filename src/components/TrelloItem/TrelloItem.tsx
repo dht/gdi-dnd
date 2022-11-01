@@ -62,6 +62,7 @@ export function TrelloItem(props: TrelloItemProps) {
         <Container
             onMouseOver={onMouseOver}
             onMouseDown={onMouseDown}
+            onTouchStart={onMouseDown}
             className={className}
             data-testid='TrelloItem-container'
             key={item.id}

@@ -77,6 +77,13 @@ export function TrelloItemNew(props: TrelloItemNewProps) {
                     ev: {} as any,
                 })
             }
+            onTouchStart={() =>
+                callbacks.onSelect({
+                    itemId: `NEW_${listId}`,
+                    point: { x: 0, y: 0 },
+                    ev: {} as any,
+                })
+            }
         >
             <Item isSelected={isSelected}>{renderInner()}</Item>
         </Container>
