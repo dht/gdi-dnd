@@ -67,7 +67,7 @@ export function TrelloInner(props: TrelloProps) {
 }
 
 export function Trello(props: TrelloProps) {
-    const { id, lists, items, callbacks, isRtl, options = {} } = props;
+    const { id, lists, items, callbacks, options = {} } = props;
 
     return (
         <DndContextProvider
@@ -76,7 +76,6 @@ export function Trello(props: TrelloProps) {
             items={items}
             options={options}
             callbacks={callbacks}
-            isRtl={isRtl}
         >
             <TrelloInner {...props} />
         </DndContextProvider>

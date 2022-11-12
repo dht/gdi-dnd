@@ -12,7 +12,7 @@
         "declarationDir": "dist/dts",
         "strict": true,
         "skipLibCheck": true,
-        "types": ["types-base"]
+        "types": ["types-base", "@gdi/types", "@types/jest"]
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

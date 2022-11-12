@@ -62,6 +62,7 @@ export function TrelloItem(props: TrelloItemProps) {
         <Container
             onMouseOver={onMouseOver}
             onMouseDown={onMouseDown}
+            /* @ts-expect-error */
             onTouchStart={onMouseDown}
             className={className}
             data-testid='TrelloItem-container'

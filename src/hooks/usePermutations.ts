@@ -3,7 +3,7 @@ import { IDndItems, IDndLists } from '../types';
 import { getListByDataTags } from '../utils/lists';
 
 export function usePermutations(
-    config: IBucketConfig,
+    config: IBucketsConfig,
     permutations: IBucketsPermutation[],
     permutationId: string,
     data: Json[]
@@ -46,9 +46,7 @@ export function usePermutations(
 
             const listId = list?.id ?? null;
 
-            const order = orderAll[scopedPermutationId] ?? {
-                [scopedPermutationId]: index,
-            };
+            const order = orderAll[scopedPermutationId] ?? index;
 
             acc[id] = {
                 id,

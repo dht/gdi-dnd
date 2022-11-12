@@ -15,7 +15,7 @@ export type TrelloItemMovingProps = {
 
 export function TrelloItemMoving(props: TrelloItemMovingProps) {
     const { item, callbacks, box, startPoint, containerPosition } = props;
-    const delta = useMouseMove(true, startPoint, () => {});
+    const delta = useMouseMove(true, startPoint);
 
     const style: React.CSSProperties = useMemo(() => {
         const left = box.x - containerPosition.x;

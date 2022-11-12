@@ -89,7 +89,7 @@ export const DndContext = createContext<IDndContext>(initialValue);
 export const DndContextProvider = (props: WithChildren<DndContextProps>) => {
     const timeout = useRef<any>();
     const { options, items, lists, callbacks } = props;
-    const { isRtl } = useTheme();
+    const { isRtl } = useTheme() as any;
 
     const configValue = useMemo(
         () => ({
@@ -140,15 +140,13 @@ export const DndContextProvider = (props: WithChildren<DndContextProps>) => {
                     state.destinationIndex
                 );
 
-                if (order === null || isNaN(order)) {
-                    return;
+                if (order !== null && !isNaN(order)) {
+                    callbacks.onMove(
+                        state.movableItemId,
+                        state.destinationListId,
+                        order
+                    );
                 }
-
-                callbacks.onMove(
-                    state.movableItemId,
-                    state.destinationListId,
-                    order
-                );
 
                 patchState({
                     movableItemId: '',
