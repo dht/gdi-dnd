@@ -23,6 +23,7 @@ export type IDndItem = {
     parentId?: string;
     order: number;
     color?: string;
+    dataTags?: string[];
 };
 
 export type IDndList = {

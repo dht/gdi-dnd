@@ -41,7 +41,7 @@ type DataTagCommand = {
 
 export const getNewDataTagsByList = (
     scopedPermutationId: string,
-    currentDataTags: string,
+    currentDataTags: string[],
     lists: IDndList[],
     listId: string
 ) => {
