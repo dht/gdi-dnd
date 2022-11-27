@@ -1,5 +1,5 @@
 import { IDndList, IDndLists } from '../types';
-import { uniq } from 'lodash';
+import uniq from 'lodash/uniq';
 
 export const getListByDataTags = (
     scopedPermutationId: string,
