@@ -1,5 +1,5 @@
 import { IDndList, IDndLists } from '../types';
-import uniq from 'lodash/uniq';
+import { uniq } from 'shared-base';
 
 export const getListByDataTags = (
     scopedPermutationId: string,
