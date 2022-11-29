@@ -1,6 +1,6 @@
 {
     "name": "@gdi/dnd",
-    "version": "0.0.25",
+    "version": "0.0.26",
     "scripts": {
         "build": "tsc & vite build",
         "test": "jest",
@@ -9,11 +9,11 @@
         "firestore:reset:mixer": "npx ts-node seed/seed.mixer.ts"
     },
     "dependencies": {
-        "@gdi/hooks": "^0.0.32",
+        "@gdi/hooks": "^0.0.33",
         "classnames": "^2.3.1",
         "react-use": "^17.4.0",
         "redux": "^4.2.0",
-        "redux-store-generator": "^0.9.87",
+        "redux-store-generator": "^0.9.89",
         "styled-components": "^5.3.5"
     },
     "devDependencies": {
@@ -32,7 +32,7 @@
         "react-dom": "^18.2.0",
         "rollup-plugin-analyzer": "^4.0.0",
         "sass": "^1.54.0",
-        "shared-base": "^0.0.26",
+        "shared-base": "^0.0.27",
         "testing-base": "^0.0.1",
         "ts-jest": "^28.0.7",
         "typescript": "^4.7.4",
