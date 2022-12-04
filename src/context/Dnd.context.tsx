@@ -367,15 +367,18 @@ export const DndContextProvider = (props: WithChildren<DndContextProps>) => {
         callbacksDnd.onDelete(state.selectedItemId);
     }, [state]);
 
+    const cValue = useMemo(
+        () => ({
+            ...configValue,
+            state,
+            patchState,
+            callbacks: callbacksDnd,
+        }),
+        [configValue, state, patchState, callbacksDnd]
+    );
+
     return (
-        <DndContext.Provider
-            value={{
-                ...configValue,
-                state,
-                patchState: patchState as any,
-                callbacks: callbacksDnd,
-            }}
-        >
+        <DndContext.Provider value={cValue}>
             {props.children}
         </DndContext.Provider>
     );
